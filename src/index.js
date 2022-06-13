@@ -12,18 +12,19 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
+  typography:{
+    fontFamily:'Tajawal'
+  }
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
     <ContextProvider>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <App />
       </ThemeProvider>
     </ContextProvider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

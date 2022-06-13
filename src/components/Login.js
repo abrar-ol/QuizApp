@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {createAPIEndpoint,ENDPOINTS} from '../api/index'
 import useStateContext from '../hooks/useStateContext'
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ const getFreshModel = ()=>({
 });
 
 export default function Login() {
-   const {context,setContext} = useStateContext();
+   const {context,setContext,resetContext} = useStateContext();
    const navigate = useNavigate();
     const {
         values,
@@ -29,6 +29,11 @@ export default function Login() {
         setErrors,
         handelInputChange
     } = useForm(getFreshModel);
+
+    useEffect(() => {
+     resetContext()
+    }, [])
+    
 
     const login = e =>{
       e.preventDefault();
@@ -46,14 +51,13 @@ export default function Login() {
     const validate = ()=>{
       let temp = {};
       temp.email = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}').test(values.email)? "" : "البريد الإلكتروني غير صحيح";
-      temp.name = values.name !="" ? "":"عرفنا باسمك قبل نبدأ";
+      temp.name = values.name !="" ? "":"عرفنا/عرفينا باسمك قبل نبدأ";
       setErrors(temp);
       return Object.values(temp).every(x=>x=="");
     }
 
   return (
     <Center>
-      {context.participantId}
       <Card
         sx={{
           width: "400px",
@@ -64,7 +68,6 @@ export default function Login() {
             variant="h3"
             sx={{
               my: 3,
-              fontFamily: "Tajawal",
             }}
           >
             تسجيل الدخول 
@@ -91,11 +94,9 @@ export default function Login() {
                 })}
                 inputProps={{
                   style: {
-                    fontFamily: "Tajawal",
                     textAlign: "center",
                   },
                 }}
-                InputLabelProps={{ style: { fontFamily: "Tajawal" } }}
               />
               <TextField
                 label="&#10024; اسـمك"
@@ -109,11 +110,9 @@ export default function Login() {
                 })}
                 inputProps={{
                   style: { 
-                    fontFamily: "Tajawal", 
                     textAlign: "center",
                   },
                 }}
-                InputLabelProps={{ style: { fontFamily: "Tajawal" } }}
               />
               <Button
                 type="submit"
@@ -121,7 +120,6 @@ export default function Login() {
                 size="large"
                 sx={{
                   width: "90%",
-                  fontFamily: "Tajawal",
                 }}
               >
                 يالله نبدأ
